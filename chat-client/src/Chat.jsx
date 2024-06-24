@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
-const socket = io("https://react-socket-chats.vercel.app", {
-    path: "/api/",
+const io = new Server(res.socket.server, {
+    path: "/api/socket.io",
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+    },
 });
 
 const Chat = () => {

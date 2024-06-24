@@ -16,6 +16,10 @@
             "dest": "chat-server/api/index.js"
         },
         {
+            "src": "/socket.io/(.*)",
+            "dest": "chat-server/api/index.js"
+        },
+        {
             "src": "/(.*)",
             "dest": "chat-client/$1"
         }

@@ -1,14 +1,11 @@
 const { Server } = require("socket.io");
-const { createServer } = require("http");
 
 export default function handler(req, res) {
     if (!res.socket.server.io) {
         console.log("Socket.IO server is starting...");
 
-        const httpServer = res.socket.server;
-
-        const io = new Server(httpServer, {
-            path: "/api/",
+        const io = new Server(res.socket.server, {
+            path: "/api/socket.io",
             cors: {
                 origin: "*",
                 methods: ["GET", "POST"],
