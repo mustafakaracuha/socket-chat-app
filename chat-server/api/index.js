@@ -5,12 +5,10 @@ export default function handler(req, res) {
     if (!res.socket.server.io) {
         console.log("Socket.IO server is starting...");
 
-        const httpServer = createServer((req, res) => {
-            res.writeHead(200, { "Content-Type": "text/plain" });
-            res.end("okay");
-        });
+        const httpServer = res.socket.server;
 
         const io = new Server(httpServer, {
+            path: "/api/socket.io",
             cors: {
                 origin: "*",
                 methods: ["GET", "POST"],
@@ -19,7 +17,6 @@ export default function handler(req, res) {
         });
 
         res.socket.server.io = io;
-        res.socket.server.httpServer = httpServer;
 
         io.on("connection", (socket) => {
             console.log("New client connected");
@@ -36,10 +33,6 @@ export default function handler(req, res) {
             socket.on("disconnect", () => {
                 console.log("Client disconnected");
             });
-        });
-
-        httpServer.listen(process.env.PORT || 3000, () => {
-            console.log("Socket.IO server is running...");
         });
     }
     res.end();
