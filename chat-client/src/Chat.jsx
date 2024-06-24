@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import io from "socket.io";
+import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
 const socket = io("https://react-socket-chats.vercel.app");

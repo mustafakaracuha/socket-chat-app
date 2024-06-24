@@ -1,6 +1,6 @@
 const { Server } = require("socket.io");
 
-export default function handler(req, res) {
+module.exports = (req, res) => {
     if (!res.socket.server.io) {
         console.log("Socket.IO server is starting...");
         const io = new Server(res.socket.server);
@@ -24,4 +24,4 @@ export default function handler(req, res) {
         });
     }
     res.end();
-}
+};
