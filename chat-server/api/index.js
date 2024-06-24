@@ -1,32 +1,36 @@
+const http = require("http");
 const { Server } = require("socket.io");
 
-export default function handler(req, res) {
-    if (!res.socket.server.io) {
-        console.log("Socket.IO server is starting...");
-        const io = new Server(res.socket.server, {
-            cors: {
-                origin: "*",
-                methods: ["GET", "POST"],
-            },
-        });
-        res.socket.server.io = io;
+const server = http.createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.end("okay");
+});
 
-        io.on("connection", (socket) => {
-            console.log("New client connected");
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"],
+        credentials: true,
+    },
+});
 
-            socket.on("chat message", (msg) => {
-                const messageObject = {
-                    user: msg.user,
-                    text: msg.text,
-                    date: new Date().toLocaleString(),
-                };
-                io.emit("chat message", messageObject);
-            });
+io.on("connection", (socket) => {
+    console.log("New client connected");
 
-            socket.on("disconnect", () => {
-                console.log("Client disconnected");
-            });
-        });
-    }
-    res.end();
-}
+    socket.on("chat message", (msg) => {
+        const messageObject = {
+            user: msg.user,
+            text: msg.text,
+            date: new Date().toLocaleString(),
+        };
+        io.emit("chat message", messageObject);
+    });
+
+    socket.on("disconnect", () => {
+        console.log("Client disconnected");
+    });
+});
+
+server.listen(process.env.PORT || 3000, () => {
+    console.log("Socket.IO server is running...");
+});
