@@ -3,7 +3,7 @@ const { Server } = require("socket.io");
 module.exports = (req, res) => {
     if (!res.socket.server.io) {
         console.log("Socket.IO server is starting...");
-        const io = new Server(res.socket.server, { path: "/api/", addTrailingSlash: false });
+        const io = new Server(res.socket.server, { path: "/api/socket", addTrailingSlash: false });
         res.socket.server.io = io;
 
         io.on("connection", (socket) => {
