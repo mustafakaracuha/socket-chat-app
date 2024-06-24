@@ -5,7 +5,7 @@ export default function handler(req, res) {
         console.log("Socket.IO server is starting...");
 
         const io = new Server(res.socket.server, {
-            path: "/api",
+            path: "/api/socket.io",
             cors: {
                 origin: "*",
                 methods: ["GET", "POST"],
