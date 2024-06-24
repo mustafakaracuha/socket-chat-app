@@ -1,9 +1,14 @@
 const { Server } = require("socket.io");
 
-module.exports = (req, res) => {
+export default function handler(req, res) {
     if (!res.socket.server.io) {
         console.log("Socket.IO server is starting...");
-        const io = new Server(res.socket.server);
+        const io = new Server(res.socket.server, {
+            cors: {
+                origin: "*",
+                methods: ["GET", "POST"],
+            },
+        });
         res.socket.server.io = io;
 
         io.on("connection", (socket) => {
@@ -24,4 +29,4 @@ module.exports = (req, res) => {
         });
     }
     res.end();
-};
+}
