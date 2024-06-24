@@ -13,7 +13,6 @@ export default function handler(req, res) {
                 origin: "*",
                 methods: ["GET", "POST"],
             },
-            transports: ["websocket", "polling"],
         });
 
         res.socket.server.io = io;
