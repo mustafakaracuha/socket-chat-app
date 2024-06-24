@@ -1,35 +1,46 @@
-const http = require("http");
 const { Server } = require("socket.io");
+const { createServer } = require("http");
 
-const server = http.createServer((req, res) => {
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end("okay");
-});
+export default function handler(req, res) {
+    if (!res.socket.server.io) {
+        console.log("Socket.IO server is starting...");
 
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"],
-    },
-});
+        const httpServer = createServer((req, res) => {
+            res.writeHead(200, { "Content-Type": "text/plain" });
+            res.end("okay");
+        });
 
-io.on("connection", (socket) => {
-    console.log("New client connected");
+        const io = new Server(httpServer, {
+            cors: {
+                origin: "*",
+                methods: ["GET", "POST"],
+            },
+            transports: ["websocket", "polling"],
+        });
 
-    socket.on("chat message", (msg) => {
-        const messageObject = {
-            user: msg.user,
-            text: msg.text,
-            date: new Date().toLocaleString(),
-        };
-        io.emit("chat message", messageObject);
-    });
+        res.socket.server.io = io;
+        res.socket.server.httpServer = httpServer;
 
-    socket.on("disconnect", () => {
-        console.log("Client disconnected");
-    });
-});
+        io.on("connection", (socket) => {
+            console.log("New client connected");
 
-server.listen(process.env.PORT || 3000, () => {
-    console.log("Socket.IO server is running...");
-});
+            socket.on("chat message", (msg) => {
+                const messageObject = {
+                    user: msg.user,
+                    text: msg.text,
+                    date: new Date().toLocaleString(),
+                };
+                io.emit("chat message", messageObject);
+            });
+
+            socket.on("disconnect", () => {
+                console.log("Client disconnected");
+            });
+        });
+
+        httpServer.listen(process.env.PORT || 3000, () => {
+            console.log("Socket.IO server is running...");
+        });
+    }
+    res.end();
+}
