@@ -16,6 +16,10 @@
             "dest": "/chat-server/api/index.js"
         },
         {
+            "src": "/socket.io/(.*)",
+            "dest": "https://react-socket-chats.vercel.app/api/"
+        },
+        {
             "src": "/(.*)",
             "dest": "/chat-client/$1"
         }
