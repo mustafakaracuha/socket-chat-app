@@ -3,7 +3,7 @@ import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
 const socket = io("https://react-socket-chats.vercel.app", {
-    path: "/api/",
+    path: "/api/socket.io",
 });
 
 const Chat = () => {
@@ -106,7 +106,7 @@ const Chat = () => {
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                     />
-                    <button className={message && username ? "p-3 bg-green-500 text-white rounded-r-xl" : "hidden"} onClick={sendMessage}>
+                    <button className={message && username ? "p-3 bg-green-500 transition-all duration-300 text-white rounded-r-xl" : "hidden transition-all duration-300"} onClick={sendMessage}>
                         <IoMdSend size={20} />
                     </button>
                 </div>
