@@ -13,11 +13,11 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "chat-server/api/index.js"
+            "dest": "/chat-server/api/index.js"
         },
         {
             "src": "/(.*)",
-            "dest": "chat-client/$1"
+            "dest": "/chat-client/$1"
         }
     ]
 }
