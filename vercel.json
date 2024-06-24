@@ -6,7 +6,7 @@
             "use": "@vercel/node"
         },
         {
-            "src": "chat-client/package.json",
+            "src": "chat-client",
             "use": "@vercel/static-build"
         }
     ],
