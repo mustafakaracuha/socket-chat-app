@@ -51,7 +51,11 @@ const Chat = () => {
 
     const sendMessage = () => {
         if (message.trim() && username.trim()) {
-            const msgObject = { user: username, text: message, date: new Date().toLocaleString() };
+            const msgObject = {
+                user: username,
+                text: message,
+                date: new Date().toLocaleString(),
+            };
             socket.emit("chat message", msgObject);
             setMessage("");
         }
@@ -76,7 +80,7 @@ const Chat = () => {
                     {messages.map((msg, index) => (
                         <div key={index} className="mb-2">
                             <div className={`p-4 rounded-xl ${userColors[msg.user] || "bg-gray-100 text-black"}`}>
-                                <div className="flex items-cen  ter justify-between">
+                                <div className="flex items-center justify-between">
                                     <strong>{msg.user}</strong>
                                     <span className="text-xs">{msg.date}</span>
                                 </div>
