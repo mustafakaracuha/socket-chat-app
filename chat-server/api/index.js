@@ -8,7 +8,7 @@ export default function handler(req, res) {
         const httpServer = res.socket.server;
 
         const io = new Server(httpServer, {
-            path: "/api/socket.io",
+            path: "/api/",
             cors: {
                 origin: "*",
                 methods: ["GET", "POST"],
