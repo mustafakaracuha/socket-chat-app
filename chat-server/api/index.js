@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
     });
 });
 
-const PORT = 4000;
+const PORT = process.env.PORT || 4000; // Vercel üzerinde PORT'un nasıl ayarlandığını dikkate alın
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = server;

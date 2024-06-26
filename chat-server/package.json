@@ -1,17 +1,25 @@
 {
   "name": "chat-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "api/index.js",
+  "description": "A simple chat server using Socket.IO and Express",
+  "main": "index.js",
   "scripts": {
-    "start": "node api/index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "author": "",
+  "keywords": [
+    "chat",
+    "socket.io",
+    "express"
+  ],
+  "author": "Your Name",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.19.2",
-    "http-proxy-middleware": "^3.0.0",
     "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
   }
 }
