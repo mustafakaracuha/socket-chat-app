@@ -33,7 +33,7 @@ io.on("connection", (socket) => {
 });
 
 // HTTP proxy middleware oluşturma
-const apiProxy = createProxyMiddleware("/socket.io", {
+const apiProxy = createProxyMiddleware("/api", {
     target: "https://react-socket-chats.vercel.app",
     ws: true,
     changeOrigin: true,
@@ -46,7 +46,7 @@ httpServer.listen(3000, () => {
 });
 
 module.exports = (req, res) => {
-    if (req.url.startsWith("/api/socket.io")) {
+    if (req.url.startsWith("/api")) {
         apiProxy(req, res);
     } else {
         httpServer.emit("request", req, res);
