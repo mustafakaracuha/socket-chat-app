@@ -1,15 +1,28 @@
 const express = require("express");
 const http = require("http");
 const socketIo = require("socket.io");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 const cors = require("cors");
 
 const app = express();
 app.use(cors());
 
+// HTTP proxy middleware oluşturma
+const apiProxy = createProxyMiddleware("/api", {
+    target: "https://react-socket-chats.vercel.app/api", // Sunucu adresinizi buraya yazın
+    ws: true,
+    changeOrigin: true,
+    pathRewrite: {
+        "^/api": "", // İsteklerde "/api" kısmını kaldır
+    },
+});
+
+app.use("/api", apiProxy);
+
 const server = http.createServer(app);
 const io = socketIo(server, {
     cors: {
-        origin: "https://react-socket-chats.vercel.app",
+        origin: "*",
         methods: ["GET", "POST"],
     },
 });
@@ -33,3 +46,5 @@ io.on("connection", (socket) => {
 
 const PORT = 4000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+module.exports = server;
