@@ -1,15 +1,15 @@
-const { Server } = require("socket.io");
-const { createServer } = require("http");
-const { createProxyMiddleware } = require("http-proxy-middleware");
+const express = require("express");
+const http = require("http");
+const socketIo = require("socket.io");
+const cors = require("cors");
 
-const httpServer = createServer((req, res) => {
-    res.writeHead(200, { "Content-Type": "text/plain" });
-    res.end("Socket.IO server is running");
-});
+const app = express();
+app.use(cors());
 
-const io = new Server(httpServer, {
+const server = http.createServer(app);
+const io = socketIo(server, {
     cors: {
-        origin: "*",
+        origin: "http://localhost:5173",
         methods: ["GET", "POST"],
     },
 });
@@ -18,7 +18,6 @@ io.on("connection", (socket) => {
     console.log("New client connected");
 
     socket.on("chat message", (msg) => {
-        console.log("Message received:", msg);
         const messageObject = {
             user: msg.user,
             text: msg.text,
@@ -32,23 +31,5 @@ io.on("connection", (socket) => {
     });
 });
 
-// HTTP proxy middleware oluşturma
-const apiProxy = createProxyMiddleware("/api", {
-    target: "https://react-socket-chats.vercel.app",
-    ws: true,
-    changeOrigin: true,
-});
-
-httpServer.on("upgrade", apiProxy.upgrade);
-
-httpServer.listen(3000, () => {
-    console.log("Socket.IO server listening on port 3000");
-});
-
-module.exports = (req, res) => {
-    if (req.url.startsWith("/api")) {
-        apiProxy(req, res);
-    } else {
-        httpServer.emit("request", req, res);
-    }
-};
+const PORT = 4000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
