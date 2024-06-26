@@ -7,13 +7,12 @@ const cors = require("cors");
 const app = express();
 app.use(cors());
 
-// HTTP proxy middleware oluşturma
 const apiProxy = createProxyMiddleware("/api", {
-    target: "https://react-socket-chats.vercel.app", // Sunucu adresinizi buraya yazın
+    target: "https://react-socket-chats.vercel.app", 
     ws: true,
     changeOrigin: true,
     pathRewrite: {
-        "^/api": "", // İsteklerde "/api" kısmını kaldır
+        "^/api": "",
     },
 });
 
@@ -44,7 +43,7 @@ io.on("connection", (socket) => {
     });
 });
 
-const PORT = process.env.PORT || 4000; // Vercel üzerinde PORT'un nasıl ayarlandığını dikkate alın
+const PORT = process.env.PORT || 4000;
 server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 module.exports = server;
