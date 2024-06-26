@@ -1,5 +1,6 @@
 const { Server } = require("socket.io");
 const { createServer } = require("http");
+const { createProxyMiddleware } = require("http-proxy-middleware");
 
 const httpServer = createServer((req, res) => {
     res.writeHead(200, { "Content-Type": "text/plain" });
@@ -31,14 +32,23 @@ io.on("connection", (socket) => {
     });
 });
 
+// HTTP proxy middleware oluşturma
+const apiProxy = createProxyMiddleware("/socket.io", {
+    target: "https://react-socket-chats.vercel.app",
+    ws: true,
+    changeOrigin: true,
+});
+
+httpServer.on("upgrade", apiProxy.upgrade);
+
 httpServer.listen(3000, () => {
     console.log("Socket.IO server listening on port 3000");
 });
 
 module.exports = (req, res) => {
     if (req.url.startsWith("/api/socket.io")) {
-        io.handleRequest(req, res);
+        apiProxy(req, res);
     } else {
-        httpServer.emit('request', req, res);
+        httpServer.emit("request", req, res);
     }
 };
