@@ -20,7 +20,7 @@ const apiProxy = createProxyMiddleware("/api", {
 app.use("/api", apiProxy);
 
 const server = http.createServer(app);
-const io = socketIo(server, {
+const io = socketIo.io.attach(server, {
     cors: {
         origin: "*",
         methods: ["GET", "POST"],
