@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import { IoMdSend } from "react-icons/io";
 
-const socket = io("/api");
+const socket = io("/api/socket.io");
 
 const Chat = () => {
     const [messages, setMessages] = useState([]);
