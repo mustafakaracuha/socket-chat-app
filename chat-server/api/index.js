@@ -17,6 +17,7 @@ io.on("connection", (socket) => {
     console.log("New client connected");
 
     socket.on("chat message", (msg) => {
+        console.log("Message received:", msg);
         const messageObject = {
             user: msg.user,
             text: msg.text,
@@ -36,10 +37,8 @@ httpServer.listen(3000, () => {
 
 module.exports = (req, res) => {
     if (req.url.startsWith("/api/socket.io")) {
-        // Handle Socket.IO requests
         io.handleRequest(req, res);
     } else {
-        // Handle other requests
-        httpServer.emit("request", req, res);
+        httpServer.emit('request', req, res);
     }
 };
