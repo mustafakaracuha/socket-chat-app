@@ -9,7 +9,7 @@ app.use(cors());
 
 // HTTP proxy middleware oluşturma
 const apiProxy = createProxyMiddleware("/api", {
-    target: "https://react-socket-chats.vercel.app/api", // Sunucu adresinizi buraya yazın
+    target: "https://react-socket-chats.vercel.app", // Sunucu adresinizi buraya yazın
     ws: true,
     changeOrigin: true,
     pathRewrite: {
