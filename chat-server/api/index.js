@@ -37,7 +37,7 @@ const apiProxy = createProxyMiddleware("/api/socket.io", {
     ws: true,
     changeOrigin: true,
     pathRewrite: {
-        "^/api/socket.io": "/api/socket.io",
+        "^/api/": "/api/socket.io",
     },
 });
 
