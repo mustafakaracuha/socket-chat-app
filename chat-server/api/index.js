@@ -36,7 +36,7 @@ httpServer.listen(3000, () => {
 });
 
 module.exports = (req, res) => {
-    if (req.url.startsWith("/api/socket.io")) {
+    if (req.url.startsWith("/api")) {
         io.handleRequest(req, res);
     } else {
         httpServer.emit('request', req, res);
